@@ -14,7 +14,7 @@ START_BTNS = [
 ]
 
 IMG_BTNS = [
-    ("Сгенерировать сообщение по запросу", "generate_img"),
+    ("Сгенерировать изображение по запросу", "generate_img"),
     ("Отправить изображение по ссылке", "link_img"),
             ]
 
@@ -23,3 +23,4 @@ AUDIO_BTNS = [
     ("Отправить аудио по ссылке", "link_sound")
 ]
 
+REP_URL = "https://github.com/gelubswag/tg_bot_lab1"
