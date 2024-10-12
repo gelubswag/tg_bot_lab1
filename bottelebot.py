@@ -1,4 +1,3 @@
-
 import telebot
 from cfg import *
 import MukeshAPI
@@ -91,15 +90,22 @@ def audio_btn(call:telebot.types.CallbackQuery):
     buttons = [telebot.types.InlineKeyboardButton(text=text, callback_data=callback_data) for text, callback_data in AUDIO_BTNS]
     keyboard.add(*buttons)
     bot.edit_message_text("Работа с изображением", msg.chat.id,msg.id,reply_markup=keyboard)
-    
 """AUDIO END"""
+@bot.callback_query_handler(func=lambda call: call.data == START_BTNS[2][1])
+def scource_btn(call:telebot.types.CallbackQuery):
+    msg = call.message
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    button = telebot.types.InlineKeyboardButton(text=f"Перейти в репозиторий", url=REP_URL)
+    keyboard.add(button)
+    bot.edit_message_text(REP_URL, msg.chat.id,msg.id,reply_markup=keyboard)
+"""REP START"""
+"""REP END"""
 @bot.message_handler(commands=["start"])
 def start(msg:telebot.types.Message):
     chat_id = msg.chat.id
     keyboard = telebot.types.InlineKeyboardMarkup()
     buttons = [telebot.types.InlineKeyboardButton(text=text, callback_data=callback_data) for text, callback_data in START_BTNS]
     keyboard.add(*buttons)
-    
     return bot.send_message(chat_id,
                             START_MSG,
                             reply_markup= keyboard)
