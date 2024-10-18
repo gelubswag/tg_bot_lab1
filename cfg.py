@@ -1,6 +1,8 @@
 import telebot
 import glob
-TOKEN = "" #TOKEN
+import yt_dlp
+import os
+TOKEN = "8145481477:AAHtricPABPDjCfz1AIzYEeQCzyiLkrLjDI" #TOKEN
 bot = telebot.TeleBot(TOKEN)
 
 AUDIO_DIR = "audio"
@@ -16,11 +18,49 @@ START_BTNS = [
 IMG_BTNS = [
     ("Сгенерировать изображение по запросу", "generate_img"),
     ("Отправить изображение по ссылке", "link_img"),
+    ("Назад на главную", "back_to_main")
             ]
 
 AUDIO_BTNS = [
     ("Сгенерировать text-to-speech", "generate_audio"),
-    ("Отправить аудио по ссылке", "link_sound")
+    ("Отправить аудио по запросу", "link_sound"),
+    ("Назад на главную", "back_to_main")
 ]
 
 REP_URL = "https://github.com/gelubswag/tg_bot_lab1"
+
+
+def audio_yt(query):
+    ydl_opts = {
+        'format': 'm4a/bestaudio/best',  # Best audio quality
+        'noplaylist': True,  # Don't download playlists
+        # 'skip-download': True
+        # 'quiet': True,  # Suppress output for cleaner logs
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        # Search for the query and get the first result
+        info = ydl.extract_info(f"ytsearch1:{query}", download=False)
+        url = "https://www.youtube.com/watch?v=" + info['entries'][0]['id']  # Return the URL of the first video
+        ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+        'outtmpl': 'audio/tmp',  # Save in current directory
+        'quiet': True,
+    }
+
+    # Download the audio
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=True)
+        filename = f"{info['title']}.mp3"  # Construct filename
+
+    # Send the audio file to Telegram
+    with open('audio/tmp.mp3', 'rb') as audio_file: return (audio_file.read(), filename)
+
+
+# audio_yt("Всё идет по плану")
+# Пример использования
