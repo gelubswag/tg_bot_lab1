@@ -2,7 +2,7 @@ import telebot
 import glob
 import yt_dlp
 import os
-TOKEN = "8145481477:AAHtricPABPDjCfz1AIzYEeQCzyiLkrLjDI" #TOKEN
+TOKEN = "" #TOKEN
 bot = telebot.TeleBot(TOKEN)
 
 AUDIO_DIR = "audio"
