@@ -5,6 +5,7 @@ import gtts
 import glob
 import time
 """"IMAGE START"""
+"Эта история о том как Никита неудачно вписал в косоль мистера Гарника"
 
 
 def gen_img(msg):
